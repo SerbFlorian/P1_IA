@@ -3,6 +3,9 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Mapa que representa el terreno y proporciona funcionalidades de búsqueda.
+ */
 public class Mapa {
     private int filas;
     private int columnas;
@@ -21,16 +24,36 @@ public class Mapa {
     }
 
     /**
-     * Imprime el mapa en la consola con representación de precipicios.
+     * Imprime el mapa en la consola con representación de precipicios y resalta el
+     * camino con color.
+     * El estado final se resalta en azul.
      */
-    public void imprimirMapa() {
-        System.out.println("Mapa:");
+    public void imprimirMapaConCamino(List<Estado> camino) {
+        System.out.println("Mapa con camino resaltado:");
+
+        // Convertir la lista de camino en un set para comprobaciones rápidas
+        List<String> caminoStrings = new ArrayList<>();
+        for (Estado estado : camino) {
+            caminoStrings.add(estado.getX() + "," + estado.getY());
+        }
+
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
-                if (mapa[i][j] == -1) {
-                    System.out.print("X  ");
+                String key = i + "," + j;
+
+                // Si la casilla está en el camino, usar color verde
+                if (caminoStrings.contains(key)) {
+                    System.out.print("\033[32m" + mapa[i][j] + " \033[0m"); // Verde para el camino
+                }
+                // Si estamos en el estado final, usar color azul
+                else if (i == destinoX && j == destinoY) {
+                    System.out.print("\033[34m" + mapa[i][j] + " \033[0m"); // Azul para el estado final
+                }
+                // Si es un precipicio, usar color rojo
+                else if (mapa[i][j] == -1) {
+                    System.out.print("\033[31mX  \033[0m"); // Rojo para el precipicio
                 } else {
-                    System.out.printf("%-3d", mapa[i][j]); // Alineación para mejor visualización
+                    System.out.printf("%-3d", mapa[i][j]);
                 }
             }
             System.out.println();
