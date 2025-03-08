@@ -7,7 +7,8 @@ import java.util.*;
 
 /**
  * Clase abstracta que define la estructura base para los algoritmos de
- * búsqueda.
+ * búsqueda. Proporciona métodos comunes para la generación de sucesores,
+ * verificación de estados, y visualización de resultados.
  */
 public abstract class Algorithm {
     /* Colores ANSI para la impresión en consola */
@@ -36,7 +37,9 @@ public abstract class Algorithm {
 
     /**
      * Genera una lista de estados sucesores a partir de un estado dado en la matriz
-     * del mapa.
+     * del mapa. Los sucesores son los estados adyacentes (arriba, abajo, izquierda,
+     * derecha)
+     * que no son obstáculos.
      *
      * @param st     Estado actual.
      * @param matriz Matriz del mapa con los estados.
@@ -79,6 +82,7 @@ public abstract class Algorithm {
 
     /**
      * Verifica si un estado representa un obstáculo o una casilla no transitable.
+     * Un estado se considera obstáculo si su altura es menor o igual a -999.
      *
      * @param st Estado a evaluar.
      * @return true si la casilla es un obstáculo, false en caso contrario.
@@ -88,7 +92,8 @@ public abstract class Algorithm {
     }
 
     /**
-     * Imprime los resultados de la ejecución del algoritmo.
+     * Imprime los resultados de la ejecución del algoritmo, incluyendo el número
+     * de nodos tratados, el coste del camino encontrado, y el camino en sí.
      *
      * @param algoritmo Nombre del algoritmo utilizado.
      * @param st        Estado final alcanzado.
@@ -110,7 +115,7 @@ public abstract class Algorithm {
 
     /**
      * Muestra el camino encontrado en la matriz del mapa, resaltando posiciones
-     * clave.
+     * clave como la posición inicial, final y los obstáculos.
      *
      * @param path Lista de estados que forman el camino encontrado.
      * @param map  Matriz del mapa.

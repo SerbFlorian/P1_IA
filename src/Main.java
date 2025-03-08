@@ -17,7 +17,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         // Cargar el mapa desde un archivo de texto
-        String filePath = "C:\\Users\\Florian\\Desktop\\GEI_4t\\2n_Quad\\1_IA\\Labs\\P1_IA\\src\\data\\mapa1.txt";
+        String filePath = "C:\\Users\\Florian\\Desktop\\GEI_4t\\2n_Quad\\1_IA\\Labs\\P1_IA\\src\\data\\mapa2.txt";
         MapData mapData = MapLoader.loadMapState(filePath);
 
         // Obtener la matriz del mapa y las posiciones inicial y final
