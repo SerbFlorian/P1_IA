@@ -3,20 +3,16 @@ package algorithms;
 import heuristics.Heuristic;
 import states.*;
 
-import java.util.ArrayList;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Clase abstracta que define la estructura base para los algoritmos de
  * búsqueda.
- * Proporciona métodos comunes para la manipulación y evaluación de estados en
- * un mapa.
  */
 public abstract class Algorithm {
     /* Colores ANSI para la impresión en consola */
     public static final String ANSI_BLUE = "\u001B[34m"; // Azul para el camino
     public static final String ANSI_RESET = "\u001B[0m"; // Restablecer color
-    public static final String ANSI_BLACK = "\u001B[30m";
     public static final String ANSI_GREEN = "\u001B[32m"; // Verde para la posición inicial
     public static final String ANSI_PINK = "\u001B[35m"; // Rosa para la posición final
     public static final String ANSI_RED = "\u001B[31m"; // Rojo para los obstáculos ('X')
@@ -28,13 +24,6 @@ public abstract class Algorithm {
     }
 
     /**
-     * Método de prueba para verificar la herencia de la clase.
-     */
-    public void test() {
-        System.out.println("Hola desde Algoritmo padre");
-    }
-
-    /**
      * Verifica si un estado está contenido en un conjunto de estados.
      *
      * @param state Estado a verificar.
@@ -42,7 +31,7 @@ public abstract class Algorithm {
      * @return true si el estado está en el conjunto, false en caso contrario.
      */
     public Boolean contiene(State state, Set<State> arr) {
-        return arr.contains(state); // Uso de HashSet para eficiencia en la búsqueda
+        return arr.contains(state);
     }
 
     /**
@@ -101,25 +90,19 @@ public abstract class Algorithm {
     /**
      * Imprime los resultados de la ejecución del algoritmo.
      *
-     * @param algoritmo      Nombre del algoritmo utilizado.
-     * @param st             Estado final alcanzado.
-     * @param treated        Lista de nodos tratados.
-     * @param h              Heurística utilizada.
-     * @param map            Matriz del mapa.
-     * @param trobat         Indica si se encontró una solución.
-     * @param alreadyPrinted Indica si los resultados ya han sido impresos.
-     * @param end            Posición final.
+     * @param algoritmo Nombre del algoritmo utilizado.
+     * @param st        Estado final alcanzado.
+     * @param treated   Lista de nodos tratados.
+     * @param h         Heurística utilizada.
+     * @param map       Matriz del mapa.
+     * @param found     Indica si se encontró una solución.
      */
-    public static void printResults(String algoritmo, State st, ArrayList<State> treated, Heuristic h, State[][] map,
-            Boolean trobat, boolean alreadyPrinted, Position end) {
-        if (alreadyPrinted) {
-            return;
-        }
-
+    public void printResults(String algoritmo, State st, ArrayList<State> treated, Heuristic h, State[][] map,
+            boolean found) {
         System.out.println("Número de nodos tratados: " + treated.size());
         System.out.println("Coste: " + st.getTime());
-        if (trobat) {
-            mostrarCamino(st.getPath(), map, end);
+        if (found) {
+            mostrarCamino(st.getPath(), map, st.getPosition());
         } else {
             System.out.println("No se ha podido encontrar el camino");
         }
@@ -133,7 +116,7 @@ public abstract class Algorithm {
      * @param map  Matriz del mapa.
      * @param end  Posición final.
      */
-    public static void mostrarCamino(ArrayList<State> path, State[][] map, Position end) {
+    public void mostrarCamino(ArrayList<State> path, State[][] map, Position end) {
         if (path != null && !path.isEmpty()) {
             System.out.println("Camino: ");
             for (int x = 0; x < map.length; x++) {

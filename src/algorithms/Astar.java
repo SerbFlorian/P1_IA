@@ -5,8 +5,7 @@ import states.*;
 import java.util.*;
 
 /**
- * Implementación del algoritmo A* para la búsqueda de caminos en un mapa
- * representado por una matriz de estados.
+ * Implementación del algoritmo A* para la búsqueda de caminos en un mapa.
  */
 public class Astar extends Algorithm {
 
@@ -14,25 +13,23 @@ public class Astar extends Algorithm {
      * Ejecuta el algoritmo A* para encontrar el camino más corto desde un estado
      * inicial hasta un estado objetivo.
      *
-     * @param map          Matriz de estados que representa el mapa.
-     * @param ini          Estado inicial desde donde comienza la búsqueda.
-     * @param end          Estado objetivo al que se desea llegar.
-     * @param heuristic    Heurística utilizada para calcular el costo estimado al
-     *                     objetivo.
-     * @param goalPosition Posición del objetivo final.
+     * @param map       Matriz de estados que representa el mapa.
+     * @param ini       Estado inicial desde donde comienza la búsqueda.
+     * @param end       Estado objetivo al que se desea llegar.
+     * @param heuristic Heurística utilizada para calcular el costo estimado al
+     *                  objetivo.
      */
-    public void astar(State[][] map, State ini, State end, Heuristic heuristic, Position goalPosition) {
+    public void astar(State[][] map, State ini, State end, Heuristic heuristic) {
         // Cola de prioridad para manejar los estados pendientes, ordenados por el costo
         // estimado F
         PriorityQueue<State> pending = new PriorityQueue<>(Comparator.comparingDouble(State::getF));
+
         // Mapa para almacenar los mejores costos encontrados para cada estado
         Map<State, Double> bestCosts = new HashMap<>();
-        // Bandera para controlar la impresión de resultados
-        boolean alreadyPrinted = false;
 
         // Inicialización del estado inicial
         ini.setFirstF(); // Calcula el valor inicial de F
-        ini.setTime(); // Establece el tiempo inicial sin argumentos
+        ini.setTime(); // Establece el tiempo inicial
         bestCosts.put(ini, ini.getTime()); // Guarda el costo inicial en el mapa de mejores costos
         pending.add(ini); // Agrega el estado inicial a la cola de prioridad
 
@@ -45,11 +42,7 @@ public class Astar extends Algorithm {
             // Si se alcanza el estado objetivo, se finaliza la búsqueda
             if (st.getPosition().cmp(end.getPosition())) {
                 found = true;
-                if (!alreadyPrinted) {
-                    printResults("A*", st, new ArrayList<>(bestCosts.keySet()), heuristic, map, found, alreadyPrinted,
-                            goalPosition);
-                    alreadyPrinted = true;
-                }
+                printResults("A*", st, new ArrayList<>(bestCosts.keySet()), heuristic, map, found);
                 break;
             }
 
@@ -68,11 +61,9 @@ public class Astar extends Algorithm {
             }
         }
 
-        // Si el objetivo no fue encontrado, se imprimen los resultados con el estado
-        // inicial
-        if (!alreadyPrinted) {
-            printResults("A*", ini, new ArrayList<>(bestCosts.keySet()), heuristic, map, found, alreadyPrinted,
-                    goalPosition);
+        // Si no se encuentra solución, imprimir los resultados con el estado inicial
+        if (!found) {
+            printResults("A*", ini, new ArrayList<>(bestCosts.keySet()), heuristic, map, found);
         }
     }
 }

@@ -17,7 +17,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         // Cargar el mapa desde un archivo de texto
-        String filePath = "C:\\Users\\Florian\\Desktop\\P1_IA\\src\\data\\mapa3.txt";
+        String filePath = "C:\\Users\\Florian\\Desktop\\GEI_4t\\2n_Quad\\1_IA\\Labs\\P1_IA\\src\\data\\mapa1.txt";
         MapData mapData = MapLoader.loadMapState(filePath);
 
         // Obtener la matriz del mapa y las posiciones inicial y final
@@ -35,26 +35,26 @@ public class Main {
         // Instanciar el algoritmo Best-First Search (BFS)
         BestFirst bestFirst = new BestFirst();
 
-        System.out.println("\nEjecutando Best-First con Heurística de Altura");
-        bestFirst.bestFirst(map, startState, endState, new HeuristicAltura(endState), endPosition);
+        System.out.println("\nEjecutando Best-First con HeuristicEuclideanMinHeight");
+        bestFirst.bestFirst(map, startState, endState, new HeuristicManhattanMinHeight(endState));
 
-        System.out.println("\nEjecutando Best-First con Heurística Manhattan");
-        bestFirst.bestFirst(map, startState, endState, new HeuristicManhattan(endPosition), endPosition);
+        System.out.println("\nEjecutando Best-First con HeuristicEuclideanMaxHeight");
+        bestFirst.bestFirst(map, startState, endState, new HeuristicEuclideanMaxHeight(endState));
 
-        System.out.println("\nEjecutando Best-First con Heurística Combinada");
-        bestFirst.bestFirst(map, startState, endState, new HeuristicCombined(endPosition), endPosition);
+        System.out.println("\nEjecutando Best-First con HeuristicManhattanCliffPenalty");
+        bestFirst.bestFirst(map, startState, endState, new HeuristicManhattanCliffPenalty(endState));
 
         // Instanciar el algoritmo A*
         Astar aStar = new Astar();
 
-        System.out.println("\nEjecutando A* con Heurística de Altura");
-        aStar.astar(map, startState, endState, new HeuristicAltura(endState), endPosition);
+        System.out.println("\nEjecutando A* con HeuristicManhattanMinHeight");
+        aStar.astar(map, startState, endState, new HeuristicManhattanMinHeight(endState));
 
-        System.out.println("\nEjecutando A* con Heurística Manhattan");
-        aStar.astar(map, startState, endState, new HeuristicManhattan(endPosition), endPosition);
+        System.out.println("\nEjecutando A* con HeuristicEuclideanMaxHeight");
+        aStar.astar(map, startState, endState, new HeuristicEuclideanMaxHeight(endState));
 
-        System.out.println("\nEjecutando A* con Heurística Combinada");
-        aStar.astar(map, startState, endState, new HeuristicCombined(endPosition), endPosition);
+        System.out.println("\nEjecutando A* con HeuristicManhattanCliffPenalty");
+        aStar.astar(map, startState, endState, new HeuristicManhattanCliffPenalty(endState));
     }
 
     /**
@@ -66,7 +66,7 @@ public class Main {
      * @param end   Posición final.
      */
     public static void displayMap(State[][] map, Position start, Position end) {
-        System.out.println("MAPA BASE");
+        System.out.println("\nMAPA BASE");
         for (int row = 0; row < map.length; row++) {
             System.out.print("|");
 
